@@ -1,0 +1,25 @@
+{
+  "name": "memories",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "server": "nodemon app/server.js",
+    "frontend": "npm start --prefix frontend",
+    "frontend-build": "npm run build --prefix frontend",
+    "start": "node app/server.js"
+  },
+  "keywords": [],
+  "author": "Vishal Nirmal <vishalnirmal53@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.12"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
