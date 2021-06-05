@@ -1,0 +1,8 @@
+export const FETCH_POSTS_REQUEST = "FETCH_POST_REQUEST";
+export const FETCH_POSTS_SUCCESS = "FETCH_POST_SUCCESS";
+export const FETCH_POSTS_ERROR = "FETCH_POSTS_ERROR";
+
+export const ADD_POST = "ADD_POST";
+export const UPDATE_POST = "UPDATE_POST";
+export const DELETE_POST = "DELETE_POST";
+export const LIKE_POST = "LIKE_POST";

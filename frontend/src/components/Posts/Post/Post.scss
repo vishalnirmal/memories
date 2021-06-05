@@ -13,7 +13,7 @@
             object-fit: cover;
         }
         &__details{
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0));
+            background: linear-gradient(rgba(60,60,60,0.8), rgba(0,0,0,0));
             width: calc(100% - 40px);
             border-radius: 15px 15px 0 0;
             position: absolute;
@@ -45,18 +45,39 @@
         &__details{
             &__tags{
                 margin: 0 0 10px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                &__item{
+                    font-size: 0.8em;
+                    border: 1px solid black;
+                    padding: 5px 10px;
+                    background-color: darkslategray;
+                    color: #eee;
+                    border-radius: 3px;
+                }
             }
             &__title{
-                margin: 13px 0;
+                font-size: 1.5rem;
+                text-transform: uppercase;
+                margin: 20px 0 10px;
             }
             &__message{
-                margin: 13px 0;
+                margin: 10px 0 20px;
             }
         }
         &__ctas{
             display: flex;
             justify-content: space-between;
             align-items: center;
+            &__like{
+                align-items: center;
+                display: flex;
+                gap: 5px;
+                span{
+                    font-size: 1.2rem;
+                }
+            }
             i{
                 cursor: pointer;
             }

@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
+import {useSelector} from 'react-redux';
 import Post from './Post/Post';
 import './Posts.scss';
 
 function Posts() {
+    const {posts} = useSelector(state => state.posts);
     const loading = false;
     const error = "";
-    const posts = [];
     useEffect(()=>{
         // dispatch(fetchPosts());
     }, []);
@@ -26,7 +27,6 @@ function Posts() {
                     ))
                 )
             }
-            <Post/>
         </div>
     )
 }

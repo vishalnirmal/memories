@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import FileBase from 'react-file-base64';
+import {useDispatch, useSelector} from 'react-redux';
+import {addPost, updatePost} from '../../redux/actions/post';
 import './Form.scss';
 
 function Form() {
-    const error = "";
-    const loading = false;
+    const dispatch = useDispatch();
+    const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const [memory, setMemory] = useState({
         creator: "",
         title: "",
@@ -12,6 +15,15 @@ function Form() {
         tags: "",
         selectedFile: ""
     });
+    const {post, isBufferLoaded} = useSelector(state=>state.buffer);
+    useEffect(() => {
+        if (post){
+            setMemory({
+                ...post,
+                tags: post.tags.join(" ")
+            });
+        }
+    }, [post]);
     const handleChange = (e) => {
         setMemory({
             ...memory,
@@ -27,23 +39,31 @@ function Form() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!memory.creator){
-            // dispatch(displayError('Creator field cannot be empty'));
+            setError('Creator field cannot be empty');
         }
         else if (!memory.title){
-            // dispatch(displayError('Title field cannot be empty'));
+            setError('Title field cannot be empty');
         }
         else if (!memory.message){
-            // dispatch(displayError('Message field cannot be empty'));
+            setError('Message field cannot be empty');
         }
-        else if (!memory.tags){
-            // dispatch(displayError('Tags field cannot be empty'));
+        else if (memory.tags.trim() === ""){
+            setError('Tags field cannot be empty');
+        }
+        else if (memory.selectedFile === ""){
+            setError('Choose an image for the memory');
         }
         else{
-            // dispatch(createPost(memory));
-            console.log({
+            const post = {
                 ...memory,
                 tags: memory.tags.trim().split(" ")
-            });
+            }; 
+            if (isBufferLoaded){
+               dispatch(updatePost(post)); 
+            }
+            else{
+                dispatch(addPost(post));
+            }
             resetForm();
         }
     }
@@ -55,6 +75,7 @@ function Form() {
             tags: "",
             selectedFile: ""
         });
+        setError("");
     }
     return (
         <div className="form-container">
@@ -81,8 +102,8 @@ function Form() {
                     }</p>
                 </div>
                 <FileBase type="file" multiple={false} onDone={saveFile} />
-                <button className="form-container__form__button submit" type="submit" disabled={loading?true:false}>{loading?"Loading":"Submit"}</button>
-                <button className="form-container__form__button clear" type="button" disabled={loading?true:false} onClick={resetForm}>{loading?"Loading":"Clear"}</button>
+                <button className="form-container__form__button submit" type="submit" disabled={isLoading?true:false}>{isLoading?"Loading":isBufferLoaded?"Update":"Submit"}</button>
+                <button className="form-container__form__button clear" type="button" disabled={isLoading?true:false} onClick={resetForm}>{isLoading?"Loading":"Clear"}</button>
             </form>
         </div>
     )
