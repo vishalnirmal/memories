@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {getPosts} from '../../redux/actions/post';
 import Post from './Post/Post';
 import './Posts.scss';
 
 function Posts() {
-    const {posts} = useSelector(state => state.posts);
-    const loading = false;
-    const error = "";
+    const dispatch = useDispatch();
+    const {posts, loading, error} = useSelector(state => state.posts);
     useEffect(()=>{
-        // dispatch(fetchPosts());
-    }, []);
+        dispatch(getPosts());
+    }, [dispatch]);
     return (
         <div className="posts">
             {

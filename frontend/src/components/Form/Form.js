@@ -59,10 +59,10 @@ function Form() {
                 tags: memory.tags.trim().split(" ")
             }; 
             if (isBufferLoaded){
-               dispatch(updatePost(post, setIsLoading)); 
+               dispatch(updatePost(post, setIsLoading, setError)); 
             }
             else{
-                dispatch(addPost(post, setIsLoading));
+                dispatch(addPost(post, setIsLoading, setError));
             }
             resetForm();
         }

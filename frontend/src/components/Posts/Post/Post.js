@@ -34,16 +34,22 @@ function Post({post}) {
                 <div className="card__bottom-section__details">
                     <div className="card__bottom-section__details__tags">
                         {
-                            post.tags.map(tag=>(<p className="card__bottom-section__details__tags__item">{tag}</p>))
+                            post.tags.map((tag, index)=>(<p key={index} className="card__bottom-section__details__tags__item">{tag}</p>))
                         }
                     </div>
                     <h2 className="card__bottom-section__details__title">{post.title}</h2>
-                    <p className="card__bottom-section__details__message">{post.message}</p>
+                    <div className="card__bottom-section__details__message">
+                        {
+                            post.message.split("\n").map((para, index)=>(
+                                <p key={index}>{para}</p>
+                            ))
+                        }
+                    </div>
                 </div>
                 <div className="card__bottom-section__ctas">
                     <p className="card__bottom-section__ctas__like">
                         <i className="far fa-heart" onClick={likeMemory}></i>
-                        <span>{post.likes?post.likes:""}</span>
+                        <span>{post.likeCount?post.likeCount:""}</span>
                     </p>
                     <p className="card__bottom-section__ctas__like">
                         <i className="fas fa-trash" onClick={deleteMemory}></i>

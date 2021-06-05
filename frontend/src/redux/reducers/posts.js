@@ -2,6 +2,21 @@ import * as actionTypes from '../constants/posts';
 
 const postsReducer = (state = { posts: [] }, action) => {
     switch (action.type) {
+        case actionTypes.FETCH_POSTS_REQUEST:
+            return {
+                loading: true
+            }
+        case actionTypes.FETCH_POSTS_ERROR:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        case actionTypes.FETCH_POSTS_SUCCESS:
+            return {
+                loading: false,
+                error: "",
+                posts: action.payload
+            }
         case actionTypes.ADD_POST:
             return {
                 ...state,
@@ -27,7 +42,7 @@ const postsReducer = (state = { posts: [] }, action) => {
                 ...state,
                 posts: state.posts.map(post=>{
                     if (post._id === action.payload){
-                        post.likes += 1;
+                        post.likeCount += 1;
                     }
                     return post;
                 })

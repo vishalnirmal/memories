@@ -64,6 +64,9 @@
             }
             &__message{
                 margin: 10px 0 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
             }
         }
         &__ctas{
