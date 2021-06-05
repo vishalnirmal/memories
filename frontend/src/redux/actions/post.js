@@ -1,4 +1,5 @@
 import * as actionTypes from '../constants/posts';
+const url = "http://localhost:5500/posts";
 
 export const addPost = (post) => async (dispatch) => {
     post["_id"] = Date().toString();

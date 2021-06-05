@@ -4,7 +4,7 @@ const router = Router();
 
 router.get("/", getPosts);
 router.post("/", createPost);
-router.put("/", updatePost);
+router.patch("/", updatePost);
 router.delete("/:id", deletePost);
 router.post("/like/:id", likePost);
 
