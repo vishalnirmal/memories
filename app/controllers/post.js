@@ -52,9 +52,17 @@ export const deletePost = async (req, res) => {
 
 export const likePost = async (req, res) => {
     const id = req.params.id;
+    const userId = req.body.id;
     try {
         const post = await Post.findById(id);
-        post.likeCount += 1;
+        const index = post.likes.indexOf(userId);
+        if (index === -1){
+            post.likes.push(userId);
+        }
+        else{
+            post.likes.splice(index, 1);
+        }
+        // post.likeCount += 1;
         await post.save();
         res.status(200).json({
             message: "Done"
