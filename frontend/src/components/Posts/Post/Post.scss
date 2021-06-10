@@ -2,6 +2,10 @@
     display: flex;
     flex-direction: column;
     gap: 0;
+    box-shadow: 0 0 2px 2px rgba(0,0,0,0.1),
+                0 0 4px 4px rgba(0,0,0,0.1),
+                0 0 8px 8px rgba(0,0,0,0.1);
+    border-radius: 15px;
     &__top-section{
         position: relative;
         color: white;
@@ -40,7 +44,7 @@
     &__bottom-section{
         margin-top: -3px;
         padding: 20px;
-        background-color: white;
+        background-color: rgba($color: #fff, $alpha: 0.5);
         border-radius: 0 0 15px 15px;
         &__details{
             &__tags{

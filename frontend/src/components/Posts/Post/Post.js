@@ -5,7 +5,7 @@ import {deletePost, likePost} from '../../../redux/actions/post';
 import {fillUpdateBuffer} from '../../../redux/actions/buffer';
 import './Post.scss';
 
-function Post({post}) {
+function Post({post, isAuthor}) {
     const dispatch = useDispatch();
     const deleteMemory = () => {
         dispatch(deletePost(post._id));
@@ -25,9 +25,12 @@ function Post({post}) {
                         <p className="card__top-section__details__info__creator">{post.creator}</p>
                         <p className="card__top-section__details__info__time">{moment(post.createdAt).from(moment(new Date()))}</p>
                     </div>
-                    <div className="card__top-section__details__edit">
-                        <i className="far fa-edit" onClick={updateMemory}></i>
-                    </div>
+                    {
+                        isAuthor && 
+                        <div className="card__top-section__details__edit">
+                            <i className="far fa-edit" onClick={updateMemory}></i>
+                        </div>
+                    }
                 </div>
             </div>
             <div className="card__bottom-section">
@@ -51,9 +54,12 @@ function Post({post}) {
                         <i className="far fa-heart" onClick={likeMemory}></i>
                         <span>{post.likeCount?post.likeCount:""}</span>
                     </p>
-                    <p className="card__bottom-section__ctas__like">
-                        <i className="fas fa-trash" onClick={deleteMemory}></i>
-                    </p>
+                    {
+                        isAuthor &&
+                        <p className="card__bottom-section__ctas__like">
+                            <i className="fas fa-trash" onClick={deleteMemory}></i>
+                        </p>
+                    }
                 </div>
             </div>
         </div>
