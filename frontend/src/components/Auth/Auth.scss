@@ -1,0 +1,83 @@
+.auth{
+    width: calc(100% - 30px);
+    max-width: 350px;
+    margin: 2rem auto;
+    background-color: rgba($color: #fff, $alpha: 0.5);
+    box-shadow: 0 0 2px 2px rgba(0,0,0,0.1),
+                0 0 4px 4px rgba(0,0,0,0.1),
+                0 0 8px 8px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    &__success{
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    &__heading{
+        font-size: 1.5rem;
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    &__form{
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        &__errorMessage{
+            background-color: crimson;
+            padding: 10px 15px;
+            width: fit-content;
+            margin: auto;
+            border-radius: 10px;
+            color: #fff;
+        }
+        &__profile{
+            width: 75px;
+            height: 75px;
+            margin: auto;
+            border-radius: 50%;
+            object-fit: contain;
+            background: #fff;
+        }
+        &__name{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+        }
+        &__button{
+            all: unset;
+            min-width: 75px;
+            margin: auto;
+            text-transform: uppercase;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 7px;
+            background-color: rgb(100, 149, 237);
+            cursor: pointer;
+            text-align: center;
+            &:disabled{
+                background-color: #555;
+            }
+        }
+    }
+    &__redirectLink{
+        text-align: center;
+        font-size: 0.9em;
+        padding: 10px;
+        background-color: #555;
+        color: white;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 375px){
+    .auth{
+        &__form{
+            &__name{
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+}
