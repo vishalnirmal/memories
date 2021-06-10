@@ -1,21 +1,24 @@
 import React, {useState, useEffect} from 'react';
 import FileBase from 'react-file-base64';
+import Loading from '../Loading/Loading';
 import {useDispatch, useSelector} from 'react-redux';
 import {addPost, updatePost} from '../../redux/actions/post';
 import './Form.scss';
 
 function Form() {
     const dispatch = useDispatch();
+    const {post, isBufferLoaded} = useSelector(state=>state.buffer);
+    const {user} = useSelector(state=>state.token);
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [memory, setMemory] = useState({
-        creator: "",
+        creatorId: user._id,
+        creator: user.name,
         title: "",
         message: "",
         tags: "",
         selectedFile: ""
     });
-    const {post, isBufferLoaded} = useSelector(state=>state.buffer);
     useEffect(() => {
         if (post){
             setMemory({
@@ -38,10 +41,7 @@ function Form() {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!memory.creator){
-            setError('Creator field cannot be empty');
-        }
-        else if (!memory.title){
+        if (!memory.title){
             setError('Title field cannot be empty');
         }
         else if (!memory.message){
@@ -69,7 +69,7 @@ function Form() {
     }
     const resetForm = ()=>{
         setMemory({
-            creator: "",
+            ...memory,
             title: "",
             message: "",
             tags: "",
@@ -86,7 +86,6 @@ function Form() {
                 ""
             }
             <form className="form-container__form" onSubmit={handleSubmit}>
-                <input type="text" name="creator" id="creator" label="creator" placeholder="Creator" className="form-container__form__input" value={memory.creator} onChange={handleChange} autoComplete="off"/>
                 <input type="text" name="title" id="title" label="title" placeholder="Title" className="form-container__form__input" value={memory.title} onChange={handleChange} autoComplete="off"/>
                 <textarea name="message" id="message" label="message" placeholder="Message" rows={5} cols={10} className="form-container__form__input" value={memory.message} onChange={handleChange}/>
                 <div className="form-container__form__tags">
@@ -102,8 +101,8 @@ function Form() {
                     }</p>
                 </div>
                 <FileBase type="file" multiple={false} onDone={saveFile} />
-                <button className="form-container__form__button submit" type="submit" disabled={isLoading?true:false}>{isLoading?"Loading":isBufferLoaded?"Update":"Submit"}</button>
-                <button className="form-container__form__button clear" type="button" disabled={isLoading?true:false} onClick={resetForm}>{isLoading?"Loading":"Clear"}</button>
+                <button className="form-container__form__button submit" type="submit" disabled={isLoading}>{isLoading?<Loading/>:isBufferLoaded?"Update":"Submit"}</button>
+                <button className="form-container__form__button clear" type="button" disabled={isLoading} onClick={resetForm}>{isLoading?<Loading/>:"Clear"}</button>
             </form>
         </div>
     )
