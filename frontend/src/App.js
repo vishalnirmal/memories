@@ -1,7 +1,9 @@
 import React from 'react';
-import Posts from './components/Posts/Posts';
-import Form from './components/Form/Form';
+import {Switch, Route} from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
+import Home from './components/Home/Home';
+import Auth from './components/Auth/Auth';
+import Verify from './components/Verify/Verify';
 import './App.scss';
 
 
@@ -9,10 +11,11 @@ function App() {
     return (
         <>
             <NavBar/>
-            <div className="container">
-                <Posts className="container__posts"/>
-                <Form className="container__form"/>
-            </div>
+            <Switch>
+                <Route path="/" exact component={Home}/>
+                <Route path="/auth" exact component={Auth}/> 
+                <Route path="/:token/verify" exact component={Verify}/>
+            </Switch>   
         </>
     )
 }
