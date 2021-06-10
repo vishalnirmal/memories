@@ -20,7 +20,7 @@ const postsReducer = (state = { posts: [] }, action) => {
         case actionTypes.ADD_POST:
             return {
                 ...state,
-                posts: [...state.posts, action.payload]
+                posts: [action.payload, ...state.posts]
             };
         case actionTypes.DELETE_POST:
             return {

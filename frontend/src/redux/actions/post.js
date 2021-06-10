@@ -29,7 +29,7 @@ export const addPost = (post, setIsLoading, setError) => async (dispatch) => {
             payload: response.data
         });  
     } catch (error) {
-        setError(error.message);
+        setError(error.response.data.message);
     }
     setIsLoading(false); 
 }
@@ -55,7 +55,7 @@ export const updatePost = (post, setIsLoading, setError) => async (dispatch) => 
             payload: response.data
         });    
     } catch (error) {
-        setError(error.message);
+        setError(error.response.data.message);
     }
     setIsLoading(false);
 }

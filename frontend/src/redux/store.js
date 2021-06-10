@@ -5,11 +5,13 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 
 const middleware = [thunk];
 
+const token = JSON.parse(localStorage.getItem("profile"));
 const INITIAL_STATE = {
     posts: {
         posts: []
-    }
-}
+    },
+    token: token || ""
+};
 
 const store = createStore(reducers, INITIAL_STATE, composeWithDevTools(applyMiddleware(...middleware)));
 
