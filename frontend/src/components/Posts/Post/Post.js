@@ -1,17 +1,20 @@
 import React from 'react';
 import moment from 'moment';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {deletePost, likePost} from '../../../redux/actions/post';
 import {fillUpdateBuffer} from '../../../redux/actions/buffer';
 import './Post.scss';
 
 function Post({post, isAuthor}) {
     const dispatch = useDispatch();
+    const {user} = useSelector(state=>state.token);
     const deleteMemory = () => {
         dispatch(deletePost(post._id));
     }
     const likeMemory = () => {
-        dispatch(likePost(post._id));
+        if (user){
+            dispatch(likePost(post._id, user._id));
+        }
     }
     const updateMemory = () => {
         dispatch(fillUpdateBuffer(post));
@@ -51,12 +54,12 @@ function Post({post, isAuthor}) {
                 </div>
                 <div className="card__bottom-section__ctas">
                     <p className="card__bottom-section__ctas__like">
-                        <i className="far fa-heart" onClick={likeMemory}></i>
-                        <span>{post.likeCount?post.likeCount:""}</span>
+                        <i className={((user && post.likes.indexOf(user._id)>-1)?"fas":"far")+" fa-heart"} onClick={likeMemory}></i>
+                        <span>{post.likes.length?post.likes.length:""}</span>
                     </p>
                     {
                         isAuthor &&
-                        <p className="card__bottom-section__ctas__like">
+                        <p className="card__bottom-section__ctas__delete">
                             <i className="fas fa-trash" onClick={deleteMemory}></i>
                         </p>
                     }

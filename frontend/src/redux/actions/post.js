@@ -60,12 +60,15 @@ export const updatePost = (post, setIsLoading, setError) => async (dispatch) => 
     setIsLoading(false);
 }
 
-export const likePost = (id) => async (dispatch) => {
+export const likePost = (id, userId) => async (dispatch) => {
     try {
-        await axios.patch(`${url}/like/${id}`);
+        await axios.patch(`${url}/like/${id}`, {id: userId});
         dispatch({
             type: actionTypes.LIKE_POST,
-            payload: id
+            payload: {
+                postId: id,
+                userId: userId
+            }
         });
     } catch (error) {
         console.log("Unable to like the post");   

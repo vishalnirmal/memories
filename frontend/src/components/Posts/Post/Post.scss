@@ -84,6 +84,9 @@
                 span{
                     font-size: 1.2rem;
                 }
+                & > .fas{
+                    color: crimson;
+                }
             }
             i{
                 cursor: pointer;

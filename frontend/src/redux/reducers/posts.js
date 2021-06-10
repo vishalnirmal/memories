@@ -38,11 +38,18 @@ const postsReducer = (state = { posts: [] }, action) => {
                 })
             }
         case actionTypes.LIKE_POST:
+            const {postId, userId} = action.payload;
             return {
                 ...state,
                 posts: state.posts.map(post=>{
-                    if (post._id === action.payload){
-                        post.likeCount += 1;
+                    if (post._id === postId){
+                        const index = post.likes.indexOf(userId);
+                        if (index === -1){
+                            post.likes.push(userId);
+                        }
+                        else{
+                            post.likes.splice(index, 1);
+                        }
                     }
                     return post;
                 })
