@@ -1,0 +1,33 @@
+.inputField{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    input{
+        all: unset;
+        background-color: #fff;
+        border: 1px solid #555;
+        width: calc(100% - 30px);
+        padding: 10px 15px;
+        width: calc(100%-30px- 2px);
+        border-radius: 7px;
+    }
+    &--error > input{
+        border: 1px solid crimson;
+    }
+    &__extra{
+        position: absolute;
+        top: 12px;
+        right: 10px;
+        cursor: pointer;
+    }
+    p{
+        display: none;
+        padding: 0 15px;
+        font-size: 0.8em;
+        color: crimson;
+    }
+    &--error > p{
+        display: block;
+    }
+}
