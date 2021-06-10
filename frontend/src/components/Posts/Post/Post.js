@@ -7,13 +7,15 @@ import './Post.scss';
 
 function Post({post, isAuthor}) {
     const dispatch = useDispatch();
-    const {user} = useSelector(state=>state.token);
+    const {user, token} = useSelector(state=>state.token);
     const deleteMemory = () => {
-        dispatch(deletePost(post._id));
+        if (token){
+            dispatch(deletePost(post._id, token));
+        }
     }
     const likeMemory = () => {
         if (user){
-            dispatch(likePost(post._id, user._id));
+            dispatch(likePost(post._id, user._id, token));
         }
     }
     const updateMemory = () => {

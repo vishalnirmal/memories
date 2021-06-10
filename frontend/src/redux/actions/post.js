@@ -20,10 +20,14 @@ export const getPosts = () => async (dispatch) => {
     }
 }
 
-export const addPost = (post, setIsLoading, setError) => async (dispatch) => {
+export const addPost = (post, setIsLoading, setError, token) => async (dispatch) => {
     setIsLoading(true);
     try {
-        const response = await axios.post(url, post);
+        const response = await axios.post(url, post, {
+            headers: {
+                'x-auth-token': token
+            }
+        });
         dispatch({
             type: actionTypes.ADD_POST,
             payload: response.data
@@ -34,9 +38,13 @@ export const addPost = (post, setIsLoading, setError) => async (dispatch) => {
     setIsLoading(false); 
 }
 
-export const deletePost = (id) => async (dispatch) => {
+export const deletePost = (id, token) => async (dispatch) => {
     try {
-        await axios.delete(`${url}/${id}`);
+        await axios.delete(`${url}/${id}`,{
+            headers: {
+                "x-auth-token": token
+            }
+        });
         dispatch({
             type: actionTypes.DELETE_POST,
             payload: id
@@ -46,10 +54,14 @@ export const deletePost = (id) => async (dispatch) => {
     }
 }
 
-export const updatePost = (post, setIsLoading, setError) => async (dispatch) => {
+export const updatePost = (post, setIsLoading, setError, token) => async (dispatch) => {
     setIsLoading(true);
     try {
-        const response = await axios.patch(url, post);
+        const response = await axios.patch(url, post, {
+            headers: {
+                'x-auth-token': token
+            }
+        });
         dispatch({
             type: actionTypes.UPDATE_POST,
             payload: response.data
@@ -60,9 +72,13 @@ export const updatePost = (post, setIsLoading, setError) => async (dispatch) => 
     setIsLoading(false);
 }
 
-export const likePost = (id, userId) => async (dispatch) => {
+export const likePost = (id, userId, token) => async (dispatch) => {
     try {
-        await axios.patch(`${url}/like/${id}`, {id: userId});
+        await axios.patch(`${url}/like/${id}`, {}, {
+            headers: {
+                "x-auth-token": token
+            }
+        });
         dispatch({
             type: actionTypes.LIKE_POST,
             payload: {

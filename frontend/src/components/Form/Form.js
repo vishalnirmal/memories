@@ -8,7 +8,7 @@ import './Form.scss';
 function Form() {
     const dispatch = useDispatch();
     const {post, isBufferLoaded} = useSelector(state=>state.buffer);
-    const {user} = useSelector(state=>state.token);
+    const {user, token} = useSelector(state=>state.token);
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [memory, setMemory] = useState({
@@ -59,10 +59,10 @@ function Form() {
                 tags: memory.tags.trim().split(" ")
             }; 
             if (isBufferLoaded){
-               dispatch(updatePost(post, setIsLoading, setError)); 
+               dispatch(updatePost(post, setIsLoading, setError, token)); 
             }
             else{
-                dispatch(addPost(post, setIsLoading, setError));
+                dispatch(addPost(post, setIsLoading, setError, token));
             }
             resetForm();
         }
