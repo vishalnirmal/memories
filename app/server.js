@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import postRoutes from './routes/post.js';
+import userRoutes from './routes/user.js';
 config();
 
 const app = express();
@@ -14,6 +15,8 @@ app.use(express.json({
     limit: "30mb"
 }));
 
+
+app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
 
 mongoose.connect(process.env.DB_URI, {
