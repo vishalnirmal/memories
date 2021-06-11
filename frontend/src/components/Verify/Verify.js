@@ -16,17 +16,21 @@ function Verify(props) {
     }, [dispatch, history, token]);
     return (
         <div className="verify">
-            <h1 className="verify__heading">Verifying your account</h1>
+            <div className="verify__heading">
+                {
+                    success?
+                    <>
+                    <h1>Verification Complete....Redirecting you to home page.</h1>
+                    <Loading/>
+                    </>:
+                    <h1>Verifying your account</h1>
+                }
+            </div>
             {
                 loading?
                 <p><Loading/></p>:
-                error?
-                <p>{error}</p>:
-                success && 
-                <>
-                    <p>Verification Complete....Redirecting you to home page.</p>
-                    <Loading size={"2rem"}/>
-                </>
+                error &&
+                <p>{error}</p>
             }
         </div>
     )
