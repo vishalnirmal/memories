@@ -38,7 +38,7 @@ const generateLink = (id) => {
     const token = generateToken({
         _id: id
     });
-    return `http://localhost:3000/${token}/verify`;
+    return `${process.env.APP_URL}/${token}/verify`;
 }
 
 const generateHash = async (data) => {
