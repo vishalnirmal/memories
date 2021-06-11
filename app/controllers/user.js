@@ -3,6 +3,7 @@ import User from '../models/User.js';
 import UnverifiedUser from '../models/UnverifiedUser.js';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
+import bcrypt from 'bcrypt';
 config();
 
 const generateToken = (data) => {
@@ -40,6 +41,14 @@ const generateLink = (id) => {
     return `http://localhost:3000/${token}/verify`;
 }
 
+const generateHash = async (data) => {
+    return await bcrypt.hash(data, 12);
+}
+
+const isHashMatching = async (data, hash) => {
+    return await bcrypt.compare(data, hash);
+}
+
 export const registerUser = async (req, res) => {
     const data = req.body;
     try {
@@ -54,12 +63,13 @@ export const registerUser = async (req, res) => {
                 message: "Email already registered"
             });
         }
+        const hashedPassword = await generateHash(data.password);
         const newUser = new UnverifiedUser({
             firstName: data.firstName,
             lastName: data.lastName,
             name: `${data.firstName} ${data.lastName}`,
             email: data.email,
-            password: data.password,
+            password: hashedPassword,
             profilePicture: data.profilePicture
         });
         await newUser.save();
@@ -85,7 +95,7 @@ export const loginUser = async (req, res) => {
         const user = await User.findOne({
             email: data.email
         });
-        if (!user || user.password !== data.password){
+        if (!user || !isHashMatching(data.password, user.password)){
             return res.status(401).json({
                 message: "Incorrect credentials"
             });
