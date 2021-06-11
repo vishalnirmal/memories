@@ -1,5 +1,6 @@
 import axios from 'axios';
-const url = "http://localhost:5500/users";
+import {url as baseUrl} from './constants.js';
+const url = `${baseUrl}/users`;
 
 export const registerUser = async (user) => {
     return await axios.post(`${url}/register`, user);
