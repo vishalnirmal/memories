@@ -1,7 +1,5 @@
-import axios from 'axios';
 import * as actionTypes from '../constants/posts';
 import * as memoriesApi from '../../api/posts';
-const url = "http://localhost:5500/posts";
 
 export const getPosts = () => async (dispatch) => {
     dispatch({
@@ -63,11 +61,7 @@ export const updatePost = (post, setIsLoading, setError, token) => async (dispat
 
 export const likePost = (id, userId, token) => async (dispatch) => {
     try {
-        await axios.patch(`${url}/like/${id}`, {}, {
-            headers: {
-                "x-auth-token": token
-            }
-        });
+        await memoriesApi.likePost(id, token);
         dispatch({
             type: actionTypes.LIKE_POST,
             payload: {

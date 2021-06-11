@@ -1,8 +1,6 @@
-import axios from 'axios';
 import * as memoriesApi from '../../api/users';
 import * as actionTypes from '../constants/form';
 import * as tokenActionTypes from '../constants/token';
-const url = "http://localhost:5500/users";
 
 export const register = (user) => async (dispatch) => {
     dispatch({
