@@ -10,7 +10,7 @@ const postSchema = mongoose.Schema({
     likes: [mongoose.Schema.Types.ObjectId],
     createdAt: {
         type: Date,
-        default: new Date()
+        default: ()=> Date.now()
     }
 });
 
