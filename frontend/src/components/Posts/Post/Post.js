@@ -5,16 +5,20 @@ import {deletePost, likePost} from '../../../redux/actions/post';
 import {fillUpdateBuffer} from '../../../redux/actions/buffer';
 import './Post.scss';
 
-function Post({post, isAuthor}) {
+function Post({post}) {
     const dispatch = useDispatch();
     const {user, token} = useSelector(state=>state.token);
+
+    // Checking if the post is created by the logged in user 
+    const isAuthor = user && user._id === post.creatorId;
+    
     const deleteMemory = () => {
         if (token){
             dispatch(deletePost(post._id, token));
         }
     }
     const likeMemory = () => {
-        if (user){
+        if (token && user){
             dispatch(likePost(post._id, user._id, token));
         }
     }
