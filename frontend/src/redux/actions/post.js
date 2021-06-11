@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as actionTypes from '../constants/posts';
+import * as memoriesApi from '../../api/posts';
 const url = "http://localhost:5500/posts";
 
 export const getPosts = () => async (dispatch) => {
@@ -7,7 +8,7 @@ export const getPosts = () => async (dispatch) => {
         type: actionTypes.FETCH_POSTS_REQUEST
     });
     try {
-        const response = await axios.get(`${url}`);
+        const response = await memoriesApi.getPosts();
         dispatch({
             type: actionTypes.FETCH_POSTS_SUCCESS,
             payload: response.data
@@ -23,11 +24,7 @@ export const getPosts = () => async (dispatch) => {
 export const addPost = (post, setIsLoading, setError, token) => async (dispatch) => {
     setIsLoading(true);
     try {
-        const response = await axios.post(url, post, {
-            headers: {
-                'x-auth-token': token
-            }
-        });
+        const response = await memoriesApi.addPost(post, token);
         dispatch({
             type: actionTypes.ADD_POST,
             payload: response.data
@@ -40,11 +37,7 @@ export const addPost = (post, setIsLoading, setError, token) => async (dispatch)
 
 export const deletePost = (id, token) => async (dispatch) => {
     try {
-        await axios.delete(`${url}/${id}`,{
-            headers: {
-                "x-auth-token": token
-            }
-        });
+        await memoriesApi.deletePost(id, token);
         dispatch({
             type: actionTypes.DELETE_POST,
             payload: id
@@ -57,11 +50,7 @@ export const deletePost = (id, token) => async (dispatch) => {
 export const updatePost = (post, setIsLoading, setError, token) => async (dispatch) => {
     setIsLoading(true);
     try {
-        const response = await axios.patch(url, post, {
-            headers: {
-                'x-auth-token': token
-            }
-        });
+        const response = await memoriesApi.updatePost(post, token);
         dispatch({
             type: actionTypes.UPDATE_POST,
             payload: response.data

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as memoriesApi from '../../api/users';
 import * as actionTypes from '../constants/form';
 import * as tokenActionTypes from '../constants/token';
 const url = "http://localhost:5500/users";
@@ -8,7 +9,7 @@ export const register = (user) => async (dispatch) => {
         type: actionTypes.POST_REQUEST
     });
     try {
-        await axios.post(`${url}/register`, user);
+        await memoriesApi.registerUser(user);
         dispatch({
             type: actionTypes.POST_SUCCESS
         });
@@ -25,7 +26,7 @@ export const login = (user, history) => async (dispatch) => {
         type: actionTypes.POST_REQUEST
     });
     try {
-        const response = await axios.post(`${url}/login`, user);
+        const response = await memoriesApi.loginUser(user);
         dispatch({
             type: actionTypes.POST_SUCCESS
         });
@@ -48,7 +49,7 @@ export const verify = (token, history) => async (dispatch) => {
         type: actionTypes.POST_REQUEST
     });
     try {
-        const response = await axios.get(`http://localhost:5500/users/verify/${token}`);
+        const response = await memoriesApi.verifyUser(token);
         dispatch({
             type: actionTypes.POST_SUCCESS
         });
