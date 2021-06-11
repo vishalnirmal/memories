@@ -8,7 +8,8 @@ const middleware = [thunk];
 const token = JSON.parse(localStorage.getItem("profile"));
 const INITIAL_STATE = {
     posts: {
-        posts: []
+        posts: [],
+        loading: true
     },
     token: token || ""
 };

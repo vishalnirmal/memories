@@ -33,9 +33,7 @@ export const login = (user, history) => async (dispatch) => {
             type: tokenActionTypes.ADD_TOKEN,
             payload: response.data
         });
-        dispatch({
-            type: actionTypes.FORM_RESET
-        });
+        dispatch(resetForm());
         history.push("/");
     } catch (error) {
         dispatch({
@@ -59,15 +57,19 @@ export const verify = (token, history) => async (dispatch) => {
             payload: response.data 
         });
         setTimeout(()=>{
-            dispatch({
-                type: actionTypes.FORM_RESET
-            });
+            dispatch(resetForm());
             history.push("/");
-        }, 3000);
+        }, 7000);
     } catch (error) {
         dispatch({
             type: actionTypes.POST_ERROR,
             payload: error.response.data.message
         });
     }
+}
+
+export const resetForm = () => {
+    return {
+        type: actionTypes.FORM_RESET
+    };
 }
