@@ -4,7 +4,7 @@ import {useHistory} from 'react-router';
 import Base64 from 'react-file-base64';
 import Input from './Input/Input';
 import Loading from '../Loading/Loading';
-import {register, login} from '../../redux/actions/form';
+import {register, login, resetForm as formStateReset} from '../../redux/actions/form';
 import dummy from '../../images/dummy.png';
 import './Auth.scss';
 
@@ -33,8 +33,7 @@ function Auth() {
 
     useEffect(() => {
         if (token)
-            history.push("/");
-        console.log(token);
+            history.replace("/");
     }, [token, history]);
     
     const toggleForm = () => {
@@ -57,25 +56,34 @@ function Auth() {
             password: "",
             confirmPassword: ""
         });
+        dispatch(formStateReset());
+    }
+
+    const validatePassword = (password) => {
+        // Checking password criterias
+        if (/.*[a-z].*/.test(password) && 
+            /.*\d.*/.test(password) && 
+            /.*\W.*/.test(password)){
+                setValidationError({
+                    ...validationError,
+                    password: ""
+                });
+                return;
+        }
+        setValidationError({
+            ...validationError,
+            password: "Password should be alphanumeric and should also contain special character"
+        });
     }
 
     const handleChange = (e) => {
+        let {name, value} = e.target;
         setUser({
             ...user,
-            [e.target.name]: e.target.value
+            [name]: value
         });
-        if (isRegister && e.target.name === "password" && !(/.*[A-Z].*/.test(e.target.value) && /.*[a-z].*/.test(e.target.value) && /.*\d.*/.test(e.target.value) && /.*\W.*/.test(e.target.value)))
-        {
-            setValidationError({
-                ...validationError,
-                password: "Password should be alphanumeric and should also contain special character"
-            });
-        }
-        else{
-            setValidationError({
-                ...validationError,
-                password: ""
-            });
+        if (name === "password" && isRegister){
+            validatePassword(value);
         }
     }
     const saveFile = ({base64}) => {
@@ -84,7 +92,7 @@ function Auth() {
             profilePicture: base64
         });
     }
-    const handleValidation = () => {
+    const isFormDataValid = () => {
         let validationState = {
             ...validationError
         };
@@ -107,8 +115,14 @@ function Auth() {
         }
         if (flag){
             setValidationError(validationState);
-            return;
+            return false;
         }
+        return true;
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!isFormDataValid())
+            return;
         // Submit the form
         if (isRegister){
             dispatch(register(user));
@@ -116,11 +130,8 @@ function Auth() {
         else{
             dispatch(login(user, history));
         }
-    }
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        handleValidation();
-        resetForm();
+        if (success)
+            resetForm();
     }
 
     return (
