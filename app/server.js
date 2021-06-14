@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import postRoutes from './routes/post.js';
 import userRoutes from './routes/user.js';
+import imageRoutes from './routes/image.js';
 config();
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json({
 
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
+app.use("/images", imageRoutes);
 
 mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,

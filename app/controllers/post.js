@@ -1,4 +1,5 @@
 import Post from '../models/Post.js';
+import {addImage} from './image.js';
 
 export const getPosts = async (req, res) => {
     try {
@@ -12,9 +13,19 @@ export const getPosts = async (req, res) => {
 }
 
 export const createPost = async (req, res) => {
-    const data = req.body;
-    const post = new Post(data);
+    const postData = req.body;
     try {
+        const imageUrl = await addImage({
+            data: selectedFiles
+        });
+        if (!imageUrl)
+            return res.status(501).json({
+                message: "Unable to create post right now. Please try again later"
+            });
+        const post = new Post({
+            ...postData,
+            selectedFiles: imageUrl
+        });
         await post.save();
         res.status(200).json(post);
     } catch (error) {
