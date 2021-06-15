@@ -6,7 +6,7 @@ export const addImage = async (data) => {
     try {
         const image = new Image(data);
         const savedImage = await image.save();
-            return `${process.env.IMAGE_URL}/images/${savedImage._id}`;
+            return `${process.env.API_URL}/images/${savedImage._id}`;
     } catch (error) {
         return;
     }
