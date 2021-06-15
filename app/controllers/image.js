@@ -28,7 +28,7 @@ export const getImage = async (req, res) => {
     }
 }
 
-export const deleteImage = (id) => {
+export const deleteImage = async (id) => {
     try {
         await Image.findByIdAndDelete(id);
         return true;
