@@ -63,7 +63,6 @@ export const updatePost = (post, setIsLoading, setError, resetForm, token) => as
 
 export const likePost = (id, userId, token) => async (dispatch) => {
     try {
-        await memoriesApi.likePost(id, token);
         dispatch({
             type: actionTypes.LIKE_POST,
             payload: {
@@ -71,7 +70,15 @@ export const likePost = (id, userId, token) => async (dispatch) => {
                 userId: userId
             }
         });
+        await memoriesApi.likePost(id, token);
     } catch (error) {
         console.log("Unable to like the post");   
+        dispatch({
+            type: actionTypes.LIKE_POST,
+            payload: {
+                postId: id,
+                userId: userId
+            }
+        });
     }
 }
