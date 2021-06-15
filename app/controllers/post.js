@@ -16,7 +16,7 @@ export const createPost = async (req, res) => {
     const postData = req.body;
     try {
         const imageUrl = await addImage({
-            data: selectedFiles
+            data: postData.selectedFile.image
         });
         if (!imageUrl)
             return res.status(501).json({
@@ -24,7 +24,10 @@ export const createPost = async (req, res) => {
             });
         const post = new Post({
             ...postData,
-            selectedFiles: imageUrl
+            selectedFile: {
+                ...postData.selectedFile,
+                image: imageUrl
+            }
         });
         await post.save();
         res.status(200).json(post);

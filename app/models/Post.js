@@ -6,7 +6,13 @@ const postSchema = mongoose.Schema({
     creator: String,
     creatorId: mongoose.Schema.Types.ObjectId,
     tags: [String],
-    selectedFile: String,
+    selectedFile: {
+        image: String,
+        dimensions: {
+            width: String,
+            height: String
+        }
+    },
     likes: [mongoose.Schema.Types.ObjectId],
     createdAt: {
         type: Date,
