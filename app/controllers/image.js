@@ -27,3 +27,12 @@ export const getImage = async (req, res) => {
         });
     }
 }
+
+export const deleteImage = (id) => {
+    try {
+        await Image.findByIdAndDelete(id);
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
