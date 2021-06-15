@@ -3,7 +3,19 @@ import FileBase from 'react-file-base64';
 import Loading from '../Loading/Loading';
 import {useDispatch, useSelector} from 'react-redux';
 import {addPost, updatePost} from '../../redux/actions/post';
+import {emptyUpdateBuffer} from '../../redux/actions/buffer';
 import './Form.scss';
+
+const getImageDimension = (base64, setDimensions) => {
+    const image = new Image();
+    image.src = base64;
+    image.onload = () => {
+        setDimensions({
+            width: image.naturalWidth,
+            height: image.naturalHeight
+        });
+    }
+}
 
 function Form() {
     const dispatch = useDispatch();
@@ -17,7 +29,9 @@ function Form() {
         title: "",
         message: "",
         tags: "",
-        selectedFile: ""
+        selectedFile: {
+            image: ""
+        }
     });
     useEffect(() => {
         if (post){
@@ -34,10 +48,15 @@ function Form() {
         });
     }
     const saveFile = ({base64}) => {
-        setMemory({
-            ...memory,
-                selectedFile: base64
+        getImageDimension(base64, (data)=>{
+            setMemory({
+                ...memory,
+                selectedFile: {
+                    dimensions: data,
+                    image: base64
+                }
             });
+        });
     }
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -50,36 +69,40 @@ function Form() {
         else if (memory.tags.trim() === ""){
             setError('Tags field cannot be empty');
         }
-        else if (memory.selectedFile === ""){
+        else if (memory.selectedFile.image === ""){
             setError('Choose an image for the memory');
         }
         else{
             const post = {
                 ...memory,
                 tags: memory.tags.trim().split(" ")
-            }; 
-            if (isBufferLoaded){
-               dispatch(updatePost(post, setIsLoading, setError, token)); 
-            }
-            else{
-                dispatch(addPost(post, setIsLoading, setError, token));
-            }
-            resetForm();
+            };
+            const submit = isBufferLoaded?updatePost:addPost;
+            console.log(submit);
+            dispatch(submit(post, setIsLoading, setError, resetForm, token));
         }
     }
-    const resetForm = ()=>{
-        setMemory({
+    const resetMemory = () => {
+        var newMemory = {
             ...memory,
             title: "",
             message: "",
             tags: "",
-            selectedFile: ""
-        });
+            selectedFile: {
+                image: ""
+            }
+        };
+        delete newMemory['_id'];
+        setMemory(newMemory);
+    }
+    const resetForm = ()=>{
+        resetMemory();
         setError("");
+        dispatch(emptyUpdateBuffer());
     }
     return (
         <div className="form-container">
-            <h2 className="form-container__heading">Creating a Memory</h2>
+            <h2 className="form-container__heading">{isBufferLoaded?"Update Memory":"Creating a Memory"}</h2>
             {
                 error?
                 <p className="form-container__error">{error}</p>:
@@ -100,9 +123,11 @@ function Form() {
                         })
                     }</p>
                 </div>
-                <FileBase type="file" multiple={false} onDone={saveFile} />
+                {
+                    !isBufferLoaded && <FileBase type="file" multiple={false} onDone={saveFile} />
+                }
                 <button className="form-container__form__button submit" type="submit" disabled={isLoading}>{isLoading?<Loading/>:isBufferLoaded?"Update":"Submit"}</button>
-                <button className="form-container__form__button clear" type="button" disabled={isLoading} onClick={resetForm}>{isLoading?<Loading/>:"Clear"}</button>
+                <button className="form-container__form__button clear" type="button" disabled={isLoading} onClick={resetForm}>Clear</button>
             </form>
         </div>
     )

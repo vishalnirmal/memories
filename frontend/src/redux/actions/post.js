@@ -19,7 +19,7 @@ export const getPosts = () => async (dispatch) => {
     }
 }
 
-export const addPost = (post, setIsLoading, setError, token) => async (dispatch) => {
+export const addPost = (post, setIsLoading, setError, resetForm, token) => async (dispatch) => {
     setIsLoading(true);
     try {
         const response = await memoriesApi.addPost(post, token);
@@ -27,6 +27,7 @@ export const addPost = (post, setIsLoading, setError, token) => async (dispatch)
             type: actionTypes.ADD_POST,
             payload: response.data
         });  
+        resetForm();
     } catch (error) {
         setError(error.response.data.message);
     }
@@ -45,14 +46,15 @@ export const deletePost = (id, token) => async (dispatch) => {
     }
 }
 
-export const updatePost = (post, setIsLoading, setError, token) => async (dispatch) => {
+export const updatePost = (post, setIsLoading, setError, resetForm, token) => async (dispatch) => {
     setIsLoading(true);
     try {
         const response = await memoriesApi.updatePost(post, token);
         dispatch({
             type: actionTypes.UPDATE_POST,
             payload: response.data
-        });    
+        });
+        resetForm();
     } catch (error) {
         setError(error.response.data.message);
     }

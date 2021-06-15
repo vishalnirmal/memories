@@ -3,12 +3,20 @@ import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import {deletePost, likePost} from '../../../redux/actions/post';
 import {fillUpdateBuffer} from '../../../redux/actions/buffer';
+import useLoadImage from './loadImage';
 import './Post.scss';
+import bufferImage from '../../../images/bufferImage2.gif';
+
+const getContainerStyling = (width, height) => {
+    return {
+        paddingBottom: `${Math.min(height / width * 100, 100)}%`
+    }
+}
 
 function Post({post}) {
     const dispatch = useDispatch();
     const {user, token} = useSelector(state=>state.token);
-
+    const {loading, imageData} = useLoadImage(post.selectedFile.image);
     // Checking if the post is created by the logged in user 
     const isAuthor = user && user._id === post.creatorId;
     
@@ -28,7 +36,9 @@ function Post({post}) {
     return (
         <div className="card">
             <div className="card__top-section">
-                <img className="card__top-section__media" src={post.selectedFile} alt={post.title} />
+                <div className="card__top-section__container" style={getContainerStyling(post.selectedFile.dimensions.width, post.selectedFile.dimensions.height)}>
+                    <img src={loading?bufferImage:imageData.data} alt={post.title}/>
+                </div>
                 <div className="card__top-section__details">
                     <div className="card__top-section__details__info">
                         <p className="card__top-section__details__info__creator">{post.creator}</p>
