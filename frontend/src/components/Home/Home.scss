@@ -16,8 +16,8 @@
     .container{
         grid-template-columns: 1fr;
         grid-template-rows: 1fr auto;
-    }
-    .form-container{
-        grid-area: 1/1/1/1;
+        &__forms{
+            grid-area: 1/1/1/1;
+        }
     }
 }
