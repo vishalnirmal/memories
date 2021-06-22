@@ -1,9 +1,29 @@
 import Post from '../models/Post.js';
-import {addImage, deleteImage} from './image.js';
+import {
+    addImage,
+    deleteImage
+} from './image.js';
+
+const generateQuery = (query) => {
+    let whereClause = {};
+    if (query.type === "title"){
+        whereClause.title = {
+            $regex: query.value,
+            $options: "i"
+        }
+    }
+    else if (query.type === "tags"){
+        whereClause.tags = query.value
+    }
+    return whereClause;
+}
 
 export const getPosts = async (req, res) => {
+    const query = generateQuery(req.query);
     try {
-        const posts = await Post.find({}).sort({createdAt: -1});
+        const posts = await Post.find(query).sort({
+            createdAt: -1
+        });
         res.status(200).json(posts);
     } catch (error) {
         res.status(404).json({
@@ -41,7 +61,11 @@ export const createPost = async (req, res) => {
 export const updatePost = async (req, res) => {
     const data = req.body;
     try {
-        const post = await Post.findOneAndUpdate({ _id: data._id }, data, { new: true });
+        const post = await Post.findOneAndUpdate({
+            _id: data._id
+        }, data, {
+            new: true
+        });
         res.status(200).json(post);
     } catch (error) {
         res.stauts(404).json({
@@ -71,10 +95,9 @@ export const likePost = async (req, res) => {
     try {
         const post = await Post.findById(id);
         const index = post.likes.indexOf(userId);
-        if (index === -1){
+        if (index === -1) {
             post.likes.push(userId);
-        }
-        else{
+        } else {
             post.likes.splice(index, 1);
         }
         await post.save();

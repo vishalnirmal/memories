@@ -11,7 +11,8 @@ const INITIAL_STATE = {
         posts: [],
         loading: true
     },
-    token: token || ""
+    token: token || "",
+    filter: {}
 };
 
 const store = createStore(reducers, INITIAL_STATE, composeWithDevTools(applyMiddleware(...middleware)));

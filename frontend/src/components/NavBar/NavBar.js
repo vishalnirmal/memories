@@ -5,6 +5,7 @@ import * as actionTypes from '../../redux/constants/token';
 import memories from '../../images/memories.png';
 import './NavBar.scss';
 import propic from '../../images/dummy.png';
+import { resetFilter } from '../../redux/actions/filter';
 
 function NavBar() {
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function NavBar() {
             history.push("/");
         }
         else{
+            dispatch(resetFilter());
             history.replace("/");
         }
     }

@@ -2,8 +2,21 @@ import axios from 'axios';
 import {url as baseUrl} from './constants.js';
 const url = `${baseUrl}/posts`;
 
-export const getPosts = async () => {
-    return await axios.get(url);
+export const getImage = async (url, source) => {
+    try {
+        return await axios.get(url, {
+            cancelToken: source.token
+        });
+    } catch (error) {
+        return "";
+    }
+}
+
+export const getPosts = async (filter, source) => {
+    return await axios.get(url, {
+        params:filter,
+        cancelToken: source.token
+    });
 }
 
 export const addPost = async (post, token) => {

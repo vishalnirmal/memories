@@ -1,12 +1,12 @@
 import * as actionTypes from '../constants/posts';
 import * as memoriesApi from '../../api/posts';
 
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (filter, source) => async (dispatch) => {
     dispatch({
         type: actionTypes.FETCH_POSTS_REQUEST
     });
     try {
-        const response = await memoriesApi.getPosts();
+        const response = await memoriesApi.getPosts(filter, source);
         dispatch({
             type: actionTypes.FETCH_POSTS_SUCCESS,
             payload: response.data

@@ -2,23 +2,32 @@ import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
+import Filter from '../Filter/Filter';
 import {getPosts} from '../../redux/actions/post';
 import './Home.scss';
+import axios from 'axios';
 
 function Home() {
     const dispatch = useDispatch();
-    const {token} = useSelector(state => state.token);
+    const {token, filter} = useSelector(state => state);
     useEffect(()=>{
-        dispatch(getPosts());
-    });
+        let source = axios.CancelToken.source();
+        dispatch(getPosts(filter, source));
+        return ()=>{
+            source.cancel();
+        }
+    }, [filter, dispatch]);
     return (
         <div className="container">
                 <Posts/>
-                {
-                    token?
-                    <Form/>:
-                    ""
-                }
+                <div className="container__forms">
+                    <Filter/>
+                    {
+                        token?
+                        <Form/>:
+                        ""
+                    }
+                </div>
         </div>
     );
 }
