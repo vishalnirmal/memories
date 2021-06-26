@@ -3,6 +3,7 @@ import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import {deletePost, likePost} from '../../../redux/actions/post';
 import {fillUpdateBuffer} from '../../../redux/actions/buffer';
+import {addFilter} from '../../../redux/actions/filter';
 import Loading from '../../Loading/Loading';
 import useLoadImage from './loadImage';
 import './Post.scss';
@@ -36,6 +37,16 @@ function Post({post}) {
     const updateMemory = () => {
         dispatch(fillUpdateBuffer(post));
     }
+    const tagSelected = (tag) => {
+        window.scrollTo({
+            top: 0, 
+            behavior: 'auto'
+        });
+        dispatch(addFilter({
+            type: "tags",
+            value: tag
+        }));
+    }
     return (
         <div className="card" ref={cardRef}>
             <figure className="card__load">
@@ -53,7 +64,7 @@ function Post({post}) {
                     {
                         isAuthor && 
                         <div className="card__top-section__details__edit">
-                            <i className="far fa-edit" onClick={updateMemory}></i>
+                            <i className="far fa-edit" title="Edit Memory" onClick={updateMemory}></i>
                         </div>
                     }
                 </div>
@@ -62,7 +73,7 @@ function Post({post}) {
                 <div className="card__bottom-section__details">
                     <div className="card__bottom-section__details__tags">
                         {
-                            post.tags.map((tag, index)=>(<p key={index} className="card__bottom-section__details__tags__item">{tag}</p>))
+                            post.tags.map((tag, index)=>(<p key={index} title={tag} onClick={()=>tagSelected(tag)} className="card__bottom-section__details__tags__item">{tag}</p>))
                         }
                     </div>
                     <h2 className="card__bottom-section__details__title">{post.title}</h2>
