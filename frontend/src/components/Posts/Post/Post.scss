@@ -6,6 +6,23 @@
                 0 0 4px 4px rgba(0,0,0,0.1),
                 0 0 8px 8px rgba(0,0,0,0.1);
     border-radius: 15px;
+    position: relative;
+    &.disable > &__load{
+        display: flex;
+    }
+    &__load{
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 15px;
+        width: 100%;
+        height: 100%;
+        z-index: 99;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba($color: #000000, $alpha: 0.5);
+    }
     &__top-section{
         position: relative;
         color: white;

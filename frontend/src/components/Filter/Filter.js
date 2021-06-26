@@ -4,13 +4,10 @@ import { addFilter, resetFilter } from '../../redux/actions/filter';
 import './Filter.scss';
 
 function Filter() {
-    const {filter} = useSelector(state => state.filter);
-    const [value, setValue] = useState("");
+    const {filter} = useSelector(state => state);
+    const [value, setValue] = useState(filter.value);
     useEffect(()=>{
-        setValue(filter?filter.value:"");
-        return ()=>{
-            setValue("");
-        }
+        setValue(filter.value);
     }, [filter]);
     const dispatch = useDispatch();
     const handleChange = (e) => {
@@ -24,7 +21,8 @@ function Filter() {
     }
     const clearFilter = () => {
         setValue("");
-        dispatch(resetFilter());
+        if (filter.value.trim() !== "")
+            dispatch(resetFilter());
     }
     return (
         <div className="filter">

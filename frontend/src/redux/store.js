@@ -12,7 +12,9 @@ const INITIAL_STATE = {
         loading: true
     },
     token: token || "",
-    filter: {}
+    filter: {
+        value: ""
+    }
 };
 
 const store = createStore(reducers, INITIAL_STATE, composeWithDevTools(applyMiddleware(...middleware)));

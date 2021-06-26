@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import {deletePost, likePost} from '../../../redux/actions/post';
 import {fillUpdateBuffer} from '../../../redux/actions/buffer';
+import Loading from '../../Loading/Loading';
 import useLoadImage from './loadImage';
 import './Post.scss';
 import bufferImage from '../../../images/bufferImage2.gif';
@@ -15,12 +16,14 @@ const getContainerStyling = (width, height) => {
 
 function Post({post}) {
     const dispatch = useDispatch();
+    const cardRef = useRef();
     const {user, token} = useSelector(state=>state.token);
     const {loading, imageData} = useLoadImage(post.selectedFile.image);
     // Checking if the post is created by the logged in user 
     const isAuthor = user && user._id === post.creatorId;
     
     const deleteMemory = () => {
+        cardRef.current.classList.add("disable");
         if (token){
             dispatch(deletePost(post._id, token));
         }
@@ -34,7 +37,10 @@ function Post({post}) {
         dispatch(fillUpdateBuffer(post));
     }
     return (
-        <div className="card">
+        <div className="card" ref={cardRef}>
+            <figure className="card__load">
+                <Loading size={"4em"}/>
+            </figure>
             <div className="card__top-section">
                 <div className="card__top-section__container" style={getContainerStyling(post.selectedFile.dimensions.width, post.selectedFile.dimensions.height)}>
                     <img src={loading?bufferImage:imageData.data} alt={post.title}/>
