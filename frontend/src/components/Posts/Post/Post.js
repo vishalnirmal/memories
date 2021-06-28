@@ -23,6 +23,13 @@ function Post({post}) {
     // Checking if the post is created by the logged in user 
     const isAuthor = user && user._id === post.creatorId;
     
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0, 
+            behavior: 'smooth'
+        });
+    }
+
     const deleteMemory = () => {
         cardRef.current.classList.add("disable");
         if (token){
@@ -36,12 +43,10 @@ function Post({post}) {
     }
     const updateMemory = () => {
         dispatch(fillUpdateBuffer(post));
+        scrollToTop();
     }
     const tagSelected = (tag) => {
-        window.scrollTo({
-            top: 0, 
-            behavior: 'auto'
-        });
+        scrollToTop();
         dispatch(addFilter({
             type: "tags",
             value: tag
