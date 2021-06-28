@@ -47,6 +47,12 @@ function Form() {
             [e.target.name]: e.target.value
         });
     }
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0, 
+            behavior: 'smooth'
+        });
+    }
     const saveFile = ({base64}) => {
         getImageDimension(base64, (data)=>{
             setMemory({
@@ -78,8 +84,7 @@ function Form() {
                 tags: memory.tags.trim().split(" ")
             };
             const submit = isBufferLoaded?updatePost:addPost;
-            console.log(submit);
-            dispatch(submit(post, setIsLoading, setError, resetForm, token));
+            dispatch(submit(post, setIsLoading, setError, resetForm, token, scrollToTop));
         }
     }
     const resetMemory = () => {

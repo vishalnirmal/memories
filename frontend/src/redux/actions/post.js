@@ -19,7 +19,7 @@ export const getPosts = (filter, source) => async (dispatch) => {
     }
 }
 
-export const addPost = (post, setIsLoading, setError, resetForm, token) => async (dispatch) => {
+export const addPost = (post, setIsLoading, setError, resetForm, token, scrollToTop) => async (dispatch) => {
     setIsLoading(true);
     try {
         const response = await memoriesApi.addPost(post, token);
@@ -28,6 +28,7 @@ export const addPost = (post, setIsLoading, setError, resetForm, token) => async
             payload: response.data
         });  
         resetForm();
+        scrollToTop();
     } catch (error) {
         setError(error.response.data.message);
     }
@@ -46,7 +47,7 @@ export const deletePost = (id, token) => async (dispatch) => {
     }
 }
 
-export const updatePost = (post, setIsLoading, setError, resetForm, token) => async (dispatch) => {
+export const updatePost = (post, setIsLoading, setError, resetForm, token, scrollToTop) => async (dispatch) => {
     setIsLoading(true);
     try {
         const response = await memoriesApi.updatePost(post, token);
@@ -55,6 +56,7 @@ export const updatePost = (post, setIsLoading, setError, resetForm, token) => as
             payload: response.data
         });
         resetForm();
+        scrollToTop();
     } catch (error) {
         setError(error.response.data.message);
     }
