@@ -8,7 +8,9 @@
     "server": "nodemon app/server.js",
     "frontend": "npm start --prefix frontend",
     "frontend-build": "rmdir /s /q build && npm run build --prefix frontend && move frontend/build build",
-    "start": "node app/server.js"
+    "start": "node app/server.js",
+    "ndeploy": "netlify deploy --dir=build",
+    "ndeploy-prod": "netlify deploy --dir=build --prod"
   },
   "keywords": [],
   "author": "Vishal Nirmal <vishalnirmal53@gmail.com>",
