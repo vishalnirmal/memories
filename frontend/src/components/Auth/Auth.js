@@ -207,6 +207,9 @@ function Auth() {
                     }
                     <button className="auth__form__button" type="submit" disabled={loading}>{loading?(<Loading/>):isRegister?"Register":"Log In"}</button>
                 </form>
+                {
+                    !isRegister && <a className="auth__forgotPassword" href="/accounts/password/reset">Forgot Password?</a>
+                }
                 <p className="auth__redirectLink" onClick={toggleForm}>
                     {
                         isRegister?

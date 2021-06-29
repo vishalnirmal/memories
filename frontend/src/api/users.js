@@ -12,6 +12,19 @@ export const loginUser = async (user) => {
 }
 
 export const verifyUser = async (token) => {
-    const response = await axios.get(`${url}/verify/${token}`);
+    const response = await axios.post(`${url}/verify/`, {token});
+    return response;
+}
+
+export const sendPasswordResetEmail = async (email) => {
+    const response = await axios.post(`${url}/password/reset`, {email});
+    return response;
+}
+
+export const resetPassord = async (token, passwords) => {
+    const response = await axios.post(`${url}/password/reset/confirm`, {
+        ...passwords,
+        token
+    });
     return response;
 }
