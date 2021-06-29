@@ -24,8 +24,7 @@ function Form() {
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [memory, setMemory] = useState({
-        creatorId: user._id,
-        creator: user.name,
+        creator: user._id,
         title: "",
         message: "",
         tags: "",

@@ -4,7 +4,9 @@ import {Link, useHistory} from 'react-router-dom';
 import * as actionTypes from '../../redux/constants/token';
 import memories from '../../images/memories.png';
 import './NavBar.scss';
-import propic from '../../images/dummy.png';
+import Image from '../Image/Image';
+import loader from '../../images/bufferImage.gif';
+import fallback from '../../images/dummy.png';
 import { resetFilter } from '../../redux/actions/filter';
 
 function NavBar() {
@@ -35,7 +37,7 @@ function NavBar() {
                 token?
                 (
                     <div className="navbar__userDetails">
-                        <img className="navbar__userDetails__picture" src={user.profilePicture || propic} alt={user.name}/>
+                        <Image className="navbar__userDetails__picture" url={user.profilePicture || ""} alt={user.name} fallback={fallback} loader={loader} />
                         <p className="navbar__userDetails__name">{user.name}</p>
                         <button className="navbar__userDetails__logout" onClick={logout}>Logout</button>
                     </div>

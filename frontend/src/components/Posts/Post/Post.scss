@@ -51,10 +51,21 @@
             align-items: flex-start;
             &__info{
                 display: flex;
-                flex-direction: column;
-                gap: 5px;
-                &__time{
-                    font-size: 0.8rem;
+                justify-content: space-between;
+                gap: 8px;
+                align-items: center;
+                &__image{
+                    object-fit: contain;
+                    width: 45px;
+                    border-radius: 50%;
+                }
+                &__text{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    &__time{
+                        font-size: 0.7em;
+                    }
                 }
             }
             &__edit{

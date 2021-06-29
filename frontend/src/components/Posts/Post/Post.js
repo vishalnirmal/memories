@@ -4,10 +4,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {deletePost, likePost} from '../../../redux/actions/post';
 import {fillUpdateBuffer} from '../../../redux/actions/buffer';
 import {addFilter} from '../../../redux/actions/filter';
+import Image from '../../Image/Image';
 import Loading from '../../Loading/Loading';
-import useLoadImage from './loadImage';
 import './Post.scss';
 import bufferImage from '../../../images/bufferImage2.gif';
+import profileLoader from '../../../images/bufferImage.gif';
+import profileFallback from '../../../images/dummy.png';
 
 const getContainerStyling = (width, height) => {
     return {
@@ -19,9 +21,8 @@ function Post({post}) {
     const dispatch = useDispatch();
     const cardRef = useRef();
     const {user, token} = useSelector(state=>state.token);
-    const {loading, imageData} = useLoadImage(post.selectedFile.image);
     // Checking if the post is created by the logged in user 
-    const isAuthor = user && user._id === post.creatorId;
+    const isAuthor = user && user._id === post.creator._id;
     
     const scrollToTop = () => {
         window.scrollTo({
@@ -59,12 +60,15 @@ function Post({post}) {
             </figure>
             <div className="card__top-section">
                 <div className="card__top-section__container" style={getContainerStyling(post.selectedFile.dimensions.width, post.selectedFile.dimensions.height)}>
-                    <img src={loading?bufferImage:imageData.data} alt={post.title}/>
+                    <Image url={post.selectedFile.image} loader={bufferImage} fallback={bufferImage} alt={post.title}/>
                 </div>
                 <div className="card__top-section__details">
                     <div className="card__top-section__details__info">
-                        <p className="card__top-section__details__info__creator">{post.creator}</p>
-                        <p className="card__top-section__details__info__time">{moment(post.createdAt).from(moment(new Date()))}</p>
+                        <Image  className="card__top-section__details__info__image" url={post.creator.profilePicture} loader={profileLoader} fallback={profileFallback} alt={post.creator.name} />
+                        <div className="card__top-section__details__info__text">
+                            <p className="card__top-section__details__info__text__creator">{post.creator.name}</p>
+                            <p className="card__top-section__details__info__text__time">{moment(post.createdAt).from(moment(new Date()))}</p>
+                        </div>
                     </div>
                     {
                         isAuthor && 
