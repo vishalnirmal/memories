@@ -6,11 +6,11 @@
     input{
         all: unset;
         background-color: #fff;
-        border: 1px solid #555;
+        border: 1px solid #bbb;
         width: calc(100% - 30px);
         padding: 10px 15px;
         width: calc(100%-30px- 2px);
-        border-radius: 7px;
+        border-radius: 5px;
     }
     &--error > input{
         border: 1px solid crimson;
