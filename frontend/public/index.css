@@ -1,8 +1,12 @@
 body {
     min-height: calc(100vh - 20px);
-    background: #C9FFBF;
+    /* background: #C9FFBF;
     background: -webkit-linear-gradient(to right, #FFAFBD, #C9FFBF);
-    background: linear-gradient(to right, #FFAFBD, #C9FFBF);
+    background: linear-gradient(to right, #FFAFBD, #C9FFBF); */
+    background: #FF5F6D;
+    background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D);
+    background: linear-gradient(to right, #FFC371, #FF5F6D);
+
     font-family: Arial, Helvetica, sans-serif;
 }
 
