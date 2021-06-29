@@ -102,22 +102,23 @@ export const loginUser = async (req, res) => {
         const user = await User.findOne({
             email: data.email
         });
-        const isPasswordMatching = await isHashMatching(data.password, user.password);
-        if (!user || !isPasswordMatching){
-            return res.status(401).json({
-                message: "Incorrect credentials"
-            });
+        if (user){
+            const isPasswordMatching = await isHashMatching(data.password, user.password);
+            if (isHashMatching)
+                return res.status(200).json({
+                    user: {
+                        _id: user._id,
+                        name: user.name,
+                        email: user.email,
+                        profilePicture: user.profilePicture
+                    },
+                    token: generateToken({
+                        _id: user._id
+                    })
+                });
         }
-        res.status(200).json({
-            user: {
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                profilePicture: user.profilePicture
-            },
-            token: generateToken({
-                _id: user._id
-            })
+        return res.status(401).json({
+            message: "Incorrect credentials"
         });
     } catch (error) {
         res.status(404).json({
