@@ -27,15 +27,15 @@ function Filter() {
     return (
         <div className="filter">
             <div className="filter__input">
-                <input type="text" name="value" id="value" value={value} onChange={handleChange} placeholder="Search Memories" />
+                <input type="text" name="value" id="value" value={value} onChange={handleChange} placeholder="Search Memories" autoComplete="off" />
                 {
                     value &&
                     <i className="fas fa-times" onClick={clearFilter}></i>
                 }
             </div>
             <div className="filter__container">
-                <button className="filter__container__title" onClick={()=>setFilter("title")}>Search Title</button>
-                <button className="filter__container__tag" onClick={()=>setFilter("tags")}>Search Tags</button>
+                <button className="filter__container__title" disabled={!value} onClick={()=>setFilter("title")}>Search Title</button>
+                <button className="filter__container__tag" disabled={!value} onClick={()=>setFilter("tags")}>Search Tags</button>
             </div>
         </div>
     )
