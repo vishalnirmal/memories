@@ -21,7 +21,7 @@ const generateQuery = (query) => {
 export const getPosts = async (req, res) => {
     const query = generateQuery(req.query);
     try {
-        const posts = await Post.find(query).sort({
+        const posts = await Post.find(query).populate('creator', 'name profilePicture').sort({
             createdAt: -1
         });
         res.status(200).json(posts);
@@ -50,7 +50,13 @@ export const createPost = async (req, res) => {
             }
         });
         await post.save();
-        res.status(200).json(post);
+        const result = await Post.populate(post, [
+            {
+                path: 'creator',
+                select: 'name profilePicture'
+            }
+        ]);
+        res.status(200).json(result);
     } catch (error) {
         res.status(404).json({
             message: error.message
@@ -66,7 +72,13 @@ export const updatePost = async (req, res) => {
         }, data, {
             new: true
         });
-        res.status(200).json(post);
+        const result = await Post.populate(post, [
+            {
+                path: 'creator',
+                select: 'name profilePicture'
+            }
+        ]);
+        res.status(200).json(result);
     } catch (error) {
         res.stauts(404).json({
             message: error.message

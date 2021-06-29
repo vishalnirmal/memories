@@ -1,6 +1,7 @@
 import {config} from 'dotenv';
 import User from '../models/User.js';
 import UnverifiedUser from '../models/UnverifiedUser.js';
+import {addImage} from './image.js';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import bcrypt from 'bcrypt';
@@ -76,7 +77,7 @@ export const registerUser = async (req, res) => {
             name: `${data.firstName} ${data.lastName}`,
             email: data.email,
             password: hashedPassword,
-            profilePicture: data.profilePicture
+            profilePicture: data.profilePicture || ""
         });
         await newUser.save();
         // Sending email by creating a link with token
@@ -135,13 +136,20 @@ export const verifyUser = async (req, res) => {
                 message: "The link is invalid."
             });
         }
+        const imageUrl = await addImage({
+            data: unverifiedUser.profilePicture
+        });
+        if (!imageUrl)
+            return res.status(501).json({
+                message: "Unable to create account right now. Please try again later"
+            });
         const newUser = new User({
             firstName: unverifiedUser.firstName,
             lastName: unverifiedUser.lastName,
             name: unverifiedUser.name,
             email: unverifiedUser.email,
             password: unverifiedUser.password,
-            profilePicture: unverifiedUser.profilePicture
+            profilePicture: imageUrl
         });
         await newUser.save();
         await UnverifiedUser.findByIdAndDelete(data._id);
