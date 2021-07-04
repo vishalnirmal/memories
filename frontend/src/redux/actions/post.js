@@ -12,6 +12,8 @@ export const getPosts = (filter, source) => async (dispatch) => {
             payload: response.data
         });
     } catch (error) {
+        if (!error.message)
+            return;
         dispatch({
             type: actionTypes.FETCH_POSTS_ERROR,
             payload: error.message

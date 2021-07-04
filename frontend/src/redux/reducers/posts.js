@@ -4,12 +4,15 @@ const postsReducer = (state = { posts: [] }, action) => {
     switch (action.type) {
         case actionTypes.FETCH_POSTS_REQUEST:
             return {
-                loading: true
+                loading: true,
+                error: "",
+                posts: []
             }
         case actionTypes.FETCH_POSTS_ERROR:
             return {
                 loading: false,
-                error: action.payload
+                error: action.payload,
+                posts: []
             }
         case actionTypes.FETCH_POSTS_SUCCESS:
             return {
