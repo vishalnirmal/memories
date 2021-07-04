@@ -104,7 +104,7 @@ export const loginUser = async (req, res) => {
         });
         if (user){
             const isPasswordMatching = await isHashMatching(data.password, user.password);
-            if (isHashMatching)
+            if (isPasswordMatching)
                 return res.status(200).json({
                     user: {
                         _id: user._id,
