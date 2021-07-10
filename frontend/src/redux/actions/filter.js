@@ -12,3 +12,17 @@ export const resetFilter = () => {
         type: actionTypes.RESET_FILTER
     };
 }
+
+export const addTitleFilter = (value) => {
+    return {
+        type: actionTypes.ADD_FILTER_TITLE,
+        payload: value
+    };
+}
+
+export const addTagFilter = (value) => {
+    return {
+        type: actionTypes.ADD_FILTER_TAG,
+        payload: value
+    };
+}

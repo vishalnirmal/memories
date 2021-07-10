@@ -19,12 +19,19 @@ const generateQuery = (query) => {
 }
 
 export const getPosts = async (req, res) => {
-    const query = generateQuery(req.query);
+    const filter = req.query;
+    const query = generateQuery(filter);
+    const limit = parseInt(process.env.DATA_LIMIT);
+    const skip = (parseInt(filter.page) - 1)*limit;
     try {
+        const length = await Post.find(query).countDocuments();
         const posts = await Post.find(query).populate('creator', 'name profilePicture').sort({
             createdAt: -1
+        }).skip(skip).limit(limit);
+        return res.status(200).json({
+            posts,
+            hasMore: !(skip+limit >= length)
         });
-        res.status(200).json(posts);
     } catch (error) {
         res.status(404).json({
             message: error.message

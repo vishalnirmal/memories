@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { addFilter, resetFilter } from '../../redux/actions/filter';
+import { addTitleFilter, addTagFilter, resetFilter } from '../../redux/actions/filter';
 import './Filter.scss';
 
 function Filter() {
@@ -14,10 +14,10 @@ function Filter() {
         setValue(e.target.value);
     }
     const setFilter = (type) => {
-        dispatch(addFilter({
-            type,
-            value
-        }));
+        if (type === "title")
+            dispatch(addTitleFilter(value));
+        else if (type === "tags")
+            dispatch(addTagFilter(value));
     }
     const clearFilter = () => {
         setValue("");

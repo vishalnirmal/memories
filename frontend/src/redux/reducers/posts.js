@@ -2,23 +2,35 @@ import * as actionTypes from '../constants/posts';
 
 const postsReducer = (state = { posts: [] }, action) => {
     switch (action.type) {
-        case actionTypes.FETCH_POSTS_REQUEST:
+        case actionTypes.FETCH_POSTS_REQUEST_NEW:
             return {
                 loading: true,
-                error: "",
                 posts: []
+            }
+        case actionTypes.FETCH_POSTS_REQUEST:
+            return {
+                ...state,
+                loading: true
             }
         case actionTypes.FETCH_POSTS_ERROR:
             return {
+                ...state,
                 loading: false,
-                error: action.payload,
-                posts: []
+                error: action.payload
             }
         case actionTypes.FETCH_POSTS_SUCCESS:
             return {
                 loading: false,
                 error: "",
-                posts: action.payload
+                posts: action.payload.posts,
+                hasMore: action.payload.hasMore
+            }
+        case actionTypes.FETCH_POSTS_APPEND:
+            return {
+                loading: false,
+                error: "",
+                posts: [...state.posts, ...action.payload.posts],
+                hasMore: action.payload.hasMore
             }
         case actionTypes.ADD_POST:
             return {

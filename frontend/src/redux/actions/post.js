@@ -3,12 +3,12 @@ import * as memoriesApi from '../../api/posts';
 
 export const getPosts = (filter, source) => async (dispatch) => {
     dispatch({
-        type: actionTypes.FETCH_POSTS_REQUEST
+        type: (filter.page === 1)?actionTypes.FETCH_POSTS_REQUEST_NEW:actionTypes.FETCH_POSTS_REQUEST
     });
     try {
         const response = await memoriesApi.getPosts(filter, source);
         dispatch({
-            type: actionTypes.FETCH_POSTS_SUCCESS,
+            type: (filter.page === 1)? actionTypes.FETCH_POSTS_SUCCESS : actionTypes.FETCH_POSTS_APPEND,
             payload: response.data
         });
     } catch (error) {

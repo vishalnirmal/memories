@@ -13,7 +13,8 @@ const INITIAL_STATE = {
     },
     token: token || "",
     filter: {
-        value: ""
+        value: "",
+        page: 1
     }
 };
 
